@@ -14,9 +14,7 @@ export const App = () => { // component( should be caps"App") called App with a 
   //currently newJoke = and empty sting
   //once lines 36-41 happen then the transient state is updated to be newJoke = the sting found in the event.target.value 
   //by using the function setNewJoke(event.target.value)
-  const [showToldJokes, setShowToldJokes] = useState(false)
-  const [showUntoldJokes, setShowUntoldJokes] = useState(true)
-  const [filteredJokes, setFilteredJokes] = useState([])
+ 
 
   useEffect(() => { // useEffect runs the code thats passed inside of it everytime the component "app" renders
     getAllJokes().then((jokesArray) => {//calling getAllJokes function. After i got the results of the function THEN i want to do somthing with the result. 
@@ -27,22 +25,14 @@ export const App = () => { // component( should be caps"App") called App with a 
     })
   }, [])
 
-  useEffect(() => { //This line is creating an effect that runs whenever the values of showEmergencyOnly or allTickets change.
-    if (showToldJokes) {//This line checks if the value of showEmergencyOnly is true.
-      const toldJokesArray = allJokes.filter//This line creates a new array called emergencyTickets that only contains the tickets from allTickets that have the property emergency set to true.
-        (Joke => Joke.told === true
-        )
-      setFilteredJokes(toldJokesArray)//This line sets the value of filteredTickets to the emergencyTickets array.
-    }
-    if (showUntoldJokes) {
-      const unToldJokesArray = allJokes.filter
-        (Joke => Joke.told === false
-        )
-      setFilteredJokes(unToldJokesArray)//This line sets the value of filteredTickets to be the same as allTickets.
+  useEffect(() => {
+    const toldJokes = allJokes.filter(// .filter
+      (joke => joke.told === true)// parameter if saying for every joke look at the value of the told property and if it is true return it. 
+    )
+    setToldJokes(toldJokes)
+  }, [allJokes]) // this is a dependency array and it is gonna wait for alljokes to change and it will render the useEffect again. 
 
-    }
-  }, [showToldJokes, showUntoldJokes])//This line is JSX code that represents a container for displaying the tickets.
-
+  
   return <div className="app-container">
     <div className="app-heading"> <h1 className="app-heading-text">Chuckle Checklist</h1> </div>
     <div className="joke-add-form"> <h2> Add Joke </h2>
